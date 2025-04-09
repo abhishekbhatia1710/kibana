@@ -1,0 +1,43 @@
+.ticker-panel {
+  overflow: hidden;
+  border-radius: 6px;
+  background-color: #f5f7fa;
+}
+
+.ticker-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  height: 30px;
+}
+
+.ticker-content {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: ticker-scroll 30s linear infinite;
+}
+
+.ticker-item {
+  display: inline-block;
+  padding: 0 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.ticker-green {
+  color: #007f5f;
+}
+
+.ticker-red {
+  color: #d72638;
+}
+
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

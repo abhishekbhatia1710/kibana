@@ -29,6 +29,7 @@ import { useAppToasts } from '../../common/hooks/use_app_toasts';
 import * as i18n from '../translations';
 import { getEntityAnalyticsRiskScorePageStyles } from '../components/risk_score_page_styles';
 import { useRiskEngineSettings } from '../api/hooks/use_risk_engine_settings';
+import { RiskTicker } from '../components/entity_watchlist_ticker';
 
 const TEN_SECONDS = 10000;
 
@@ -92,7 +93,6 @@ export const EntityAnalyticsManagementPage = () => {
             <EuiFlexItem data-test-subj="entityAnalyticsManagementPageTitle" grow={false}>
               {ENTITY_ANALYTICS_RISK_SCORE}
             </EuiFlexItem>
-
             {/* Controls Section */}
             <EuiFlexItem grow={false}>
               <EuiFlexGroup alignItems="center" gutterSize="m">
@@ -130,6 +130,13 @@ export const EntityAnalyticsManagementPage = () => {
           </EuiFlexGroup>
         }
       />
+
+      <EuiHorizontalRule />
+
+      {/* Ticker Section*/}
+      <EuiFlexItem grow={false}>
+        <RiskTicker />
+      </EuiFlexItem>
 
       <EuiHorizontalRule />
       <EuiFlexGroup gutterSize="xl" alignItems="flexStart">

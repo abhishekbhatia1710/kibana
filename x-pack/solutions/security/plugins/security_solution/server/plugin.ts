@@ -132,6 +132,7 @@ import { scheduleEntityAnalyticsMigration } from './lib/entity_analytics/migrati
 import { SiemMigrationsService } from './lib/siem_migrations/siem_migrations_service';
 import { TelemetryConfigProvider } from '../common/telemetry_config/telemetry_config_provider';
 import { TelemetryConfigWatcher } from './endpoint/lib/policy/telemetry_watch';
+import { entityWatchlistSavedObjectType } from './lib/entity_analytics/watchlist/saved_object';
 
 export type { SetupPlugins, StartPlugins, PluginSetup, PluginStart } from './plugin_contract';
 
@@ -543,6 +544,8 @@ export class Plugin implements ISecuritySolutionPlugin {
       isFeatureEnabled: config.experimentalFeatures.defendInsights,
       endpointContext: this.endpointContext.service,
     });
+
+    core.savedObjects.registerType(entityWatchlistSavedObjectType);
 
     return {
       setProductFeaturesConfigurator:

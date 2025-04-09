@@ -1,0 +1,47 @@
+{
+  "watchlist": [
+    {
+      "entity_id": "user-high-risk",
+      "entity_type": "user",
+      "risk_score": 85.4,
+      "risk_score_change": 25.7,
+      "last_updated": "2025-04-08T10:00:00.000Z"
+    },
+    {
+      "entity_id": "user-low-risk",
+      "entity_type": "user",
+      "risk_score": 42.1,
+      "risk_score_change": -10.5,
+      "last_updated": "2025-04-08T10:00:00.000Z"
+    },
+    {
+      "entity_id": "host-critical-spike",
+      "entity_type": "host",
+      "risk_score": 91.0,
+      "risk_score_change": 40.0,
+      "last_updated": "2025-04-08T10:00:00.000Z"
+    },
+    {
+      "entity_id": "host-risk-drop",
+      "entity_type": "host",
+      "risk_score": 33.3,
+      "risk_score_change": -20.3,
+      "last_updated": "2025-04-08T10:00:00.000Z"
+    },
+    {
+      "entity_id": "user-slight-increase",
+      "entity_type": "user",
+      "risk_score": 67.0,
+      "risk_score_change": 5.5,
+      "last_updated": "2025-04-08T10:00:00.000Z"
+    },
+    {
+      "entity_id": "host-slight-decrease",
+      "entity_type": "host",
+      "risk_score": 49.9,
+      "risk_score_change": -3.1,
+      "last_updated": "2025-04-08T10:00:00.000Z"
+    }
+  ]
+}
+

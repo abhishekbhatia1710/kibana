@@ -82,6 +82,20 @@ export const initSavedObjects = async ({
     getDefaultRiskEngineConfiguration({ namespace }),
     {}
   );
+
+  const result2 = await savedObjectsClient.create(
+    'entity-watchlist',
+    {
+      entity_id: 'test-user',
+      entity_type: 'user',
+      risk_score: 0,
+      risk_score_change: 0,
+      last_updated: new Date().toISOString(),
+    },
+    {}
+  );
+  console.log('result2', result2);
+
   return result;
 };
 
