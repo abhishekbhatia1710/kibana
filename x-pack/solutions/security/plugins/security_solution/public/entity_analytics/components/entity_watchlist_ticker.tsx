@@ -21,6 +21,7 @@ interface WatchlistItem {
 export const RiskTicker: React.FC = () => {
   const { http } = useKibana().services;
   const [watchlist, setWatchlist] = useState<WatchlistItem[]>([]);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     const fetchWatchlist = async () => {
@@ -33,69 +34,76 @@ export const RiskTicker: React.FC = () => {
     };
 
     fetchWatchlist();
-    const interval = setInterval(fetchWatchlist, 10000); // refresh every 10s
+    const interval = setInterval(fetchWatchlist, 10000);
 
     return () => clearInterval(interval);
   }, [http]);
 
-  const [isPaused, setIsPaused] = useState(false);
+  const renderItem = (item: WatchlistItem) => {
+    const isPositive = item.risk_score_change !== undefined && item.risk_score_change < 0;
+    const color = isPositive ? 'success' : 'danger';
+    const arrowIcon = isPositive ? 'sortDown' : 'sortUp';
+    const entityIcon =
+      item.entity_type === 'user'
+        ? 'user'
+        : item.entity_type === 'host'
+        ? 'compute'
+        : 'package';
+    const label = `${item.entity_id} (${item.risk_score})`;
+
+    return (
+      <div key={`${item.id}-${Math.random()}`} style={{ minWidth: 200, marginRight: 40 }}>
+        <EuiHealth color={color}>
+          <EuiText size="s">
+            <EuiIcon type={entityIcon} size="s" css={{ marginRight: 4 }} />
+            {label}
+            <EuiIcon
+              type={arrowIcon}
+              color={color}
+              size="s"
+              css={{ marginLeft: 6, verticalAlign: 'middle' }}
+            />
+          </EuiText>
+        </EuiHealth>
+      </div>
+    );
+  };
+
+  const itemsToRender = [...watchlist, ...watchlist]; // duplicate for infinite scroll illusion
 
   return (
     <div
-      style={{ overflow: 'hidden', width: '100%', background: '#f5f7fa' }}
+      style={{
+        overflow: 'hidden',
+        width: '100%',
+        background: '#f5f7fa',
+        position: 'relative',
+      }}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
       <div
         style={{
           display: 'inline-flex',
-          animation: 'ticker-scroll 30s linear infinite',
           whiteSpace: 'nowrap',
+          animation: 'ticker-scroll 40s linear infinite',
           animationPlayState: isPaused ? 'paused' : 'running',
         }}
       >
-        {watchlist.map((item) => {
-          const isPositive = item.risk_score_change !== undefined && item.risk_score_change < 0;
-          const color = isPositive ? 'success' : 'danger';
-          const arrowIcon = isPositive ? 'sortDown' : 'sortUp';
-          const entityIcon =
-            item.entity_type === 'user'
-              ? 'user'
-              : item.entity_type === 'host'
-              ? 'compute'
-              : 'package';
-          const label = `${item.entity_id} (${item.risk_score})`;
-
-          return (
-            <div key={item.id} style={{ minWidth: 200, marginRight: 20 }}>
-              <EuiHealth color={color}>
-                <EuiText size="s">
-                  <EuiIcon type={entityIcon} size="s" css={{ marginRight: 4 }} />
-                  {label}
-                  <EuiIcon
-                    type={arrowIcon}
-                    color={color}
-                    size="s"
-                    css={{ marginLeft: 6, verticalAlign: 'middle' }}
-                  />
-                </EuiText>
-              </EuiHealth>
-            </div>
-          );
-        })}
+        {itemsToRender.map(renderItem)}
       </div>
 
       <style>
         {`
-        @keyframes ticker-scroll {
-          0% {
-            transform: translateX(100%);
+          @keyframes ticker-scroll {
+            0% {
+              transform: translateX(0%);
+            }
+            100% {
+              transform: translateX(-50%);
+            }
           }
-          100% {
-            transform: translateX(-100%);
-          }
-        }
-      `}
+        `}
       </style>
     </div>
   );
